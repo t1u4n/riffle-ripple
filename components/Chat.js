@@ -1,6 +1,6 @@
 import axios from "axios";
-import Pusher from "pusher";
-import { Component } from "react";
+import Pusher from "pusher-js";
+import React, { Component, Fragment } from "react";
 
 class Chat extends Component {
     state = { chats: [] }
@@ -31,6 +31,9 @@ class Chat extends Component {
                 .then(response => {
                     const chats = response.data.messages;
                     this.setState({ chats });
+                })
+                .catch(exception => {
+                    console.error(exception.stack)
                 });
         });
     }
