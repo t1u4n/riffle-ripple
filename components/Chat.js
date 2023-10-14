@@ -33,7 +33,7 @@ class Chat extends Component {
                     this.setState({ chats });
                 })
                 .catch(exception => {
-                    console.error(exception.stack)
+                    console.error("Failed to send message", exception.stack)
                 });
         });
     }

@@ -33,6 +33,26 @@ app.prepare().then(() => {
         return handler(req, res);
     });
 
+    const chatHistory = { messages: [] };
+
+    // Add route for '/message'
+    server.post('/message', (req, res, next) => {
+        console.log("Receive request POST /message")
+        const { user = null, message = '', timestamp = +new Date } = req.body;
+        const sentimentScore = sentiment.analyze(message).score;
+
+        const chat = { user, message, timestamp, sentiment: sentimentScore };
+
+        chatHistory.messages.push(chat);
+        pusher.trigger('chat-room', 'new-message', { chat });
+    })
+
+    // Add route for '/messages'
+    server.post('/messages', (req, res, next) => {
+        console.log("Receive request POST /messages")
+        res.json({ ...chatHistory, status: 'success' });
+    });
+
     // Start the server and listen to specific port
     server.listen(port, err => {
         if (err) throw err;
