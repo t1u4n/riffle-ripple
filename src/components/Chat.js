@@ -7,6 +7,7 @@ const SAD_EMOJI = [55357, 56864];
 const HAPPY_EMOJI = [55357, 56832];
 const NEUTRAL_EMOJI = [55357, 56848];
 
+
 class Chat extends Component {
     state = { chats: [] }
 
@@ -64,6 +65,7 @@ class Chat extends Component {
           const chat = { user, message: value, timestamp: +new Date };
           
           evt.target.value = '';
+
           axios.post('/api/message', chat)
           .catch(exception => {
             console.error("Failed to send message", exception.stack)

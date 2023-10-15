@@ -19,6 +19,7 @@ export async function POST(req) {
     const sentimentScore = sentiment.analyze(message).score;
 
     const chat = { user, message, timestamp, sentiment: sentimentScore };
+
     console.log(chat)
 
     // chatHistory.messages.push(chat);
