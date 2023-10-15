@@ -19,9 +19,16 @@ export async function POST(req) {
     const sentimentScore = sentiment.analyze(message).score;
 
     const chat = { user, message, timestamp, sentiment: sentimentScore };
+    console.log(chat)
 
     // chatHistory.messages.push(chat);
-    pusher.trigger('chat-room', 'new-message', { chat });
+    await pusher.trigger('chat-room', 'new-message', { chat })
+    .catch((exception) => {
+        return new NextResponse({
+            status: exception.status || 500,
+            body: exception.message
+        })
+    });
 
     return new NextResponse({
         status: 200,
