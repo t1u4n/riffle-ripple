@@ -7,6 +7,11 @@ const SAD_EMOJI = [55357, 56864];
 const HAPPY_EMOJI = [55357, 56832];
 const NEUTRAL_EMOJI = [55357, 56848];
 
+// const sentimentAPI = axios.create()
+const messageApi = axios.create({
+    baseURL: process.env.RR_BACKEND_URL || "http://localhost:3001",
+})
+
 class Chat extends Component {
     state = { chats: [] }
 
@@ -32,9 +37,9 @@ class Chat extends Component {
 
         // After a successful Pusher connection, fetch historical chat messages from the server using Axios
         this.pusher.connection.bind('connected', () => {
-            axios.post('/messages')
+            axios.post('/api/messages')
                 .then(response => {
-                    const chats = response.data.messages;
+                    const chats = response.data.messages || [];
                     this.setState({ chats });
                 })
                 .catch(exception => {
@@ -64,7 +69,7 @@ class Chat extends Component {
           const chat = { user, message: value, timestamp: +new Date };
           
           evt.target.value = '';
-          axios.post('/message', chat);
+          axios.post('/api/message', chat);
         }
     }
 
