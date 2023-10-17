@@ -32,16 +32,17 @@ class Chat extends Component {
         });
 
         // After a successful Pusher connection, fetch historical chat messages from the server using Axios
-        this.pusher.connection.bind('connected', () => {
-            axios.post('/api/messages')
-                .then(response => {
-                    const chats = response.data.messages || [];
-                    this.setState({ chats });
-                })
-                .catch(exception => {
-                    console.error("Failed to fetch chat history", exception.stack)
-                });
+        this.pusher.connection.bind('connected', async () => {
+            try {
+                const response = await axios.post('/api/messages');
+                const chats = await response.data.messages || [];
+                this.setState({ chats });
+            } catch (exception) {
+                console.error("Failed to fetch chat history", exception.stack);
+            }
         });
+        
+        
     }
 
     /**

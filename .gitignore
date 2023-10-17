@@ -1,6 +1,8 @@
-/node_modules
+node_modules/
 .env
-/.next
+.next/
 package-lock.json
 .DS_Store
-/.vs_code
+.vs_code/
+.env*
+.vercel/
